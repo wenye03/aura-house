@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温度控制 - 智能家居</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f0f0f3 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .status-bar {
+            height: 44px;
+            background: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+        .room-tab {
+            transition: all 0.3s;
+        }
+        .room-tab.active {
+            background: rgba(0, 0, 0, 0.08);
+            color: #1d1d1f;
+        }
+        .temp-circle {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .circle-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid rgba(0, 0, 0, 0.15);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .circle-inner {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .temp-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #1d1d1f;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .temp-dot.current {
+            top: 50%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+            background: #60a5fa;
+        }
+        .temp-dot.goal {
+            top: 50%;
+            right: 10%;
+            transform: translate(50%, -50%);
+            background: #f97316;
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+    <!-- iOS状态栏 -->
+    <div class="status-bar flex items-center justify-between px-6 text-gray-900 text-sm font-semibold">
+        <div class="flex items-center">
+            <span class="font-semibold">9:41</span>
+        </div>
+        <div class="flex items-center space-x-1">
+            <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="6" width="2" height="4" rx="0.5" fill="#1d1d1f"/>
+                <rect x="3" y="4" width="2" height="6" rx="0.5" fill="#1d1d1f"/>
+                <rect x="6" y="2" width="2" height="8" rx="0.5" fill="#1d1d1f"/>
+                <rect x="9" y="1" width="2" height="9" rx="0.5" fill="#1d1d1f"/>
+                <rect x="12" y="0" width="2" height="10" rx="0.5" fill="#1d1d1f"/>
+            </svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 0C3.36 0 0 2.69 0 6c0 1.68.85 3.18 2.18 4.08L1 11l4.5-1.5C6.5 9.83 7 9.92 7.5 9.92c4.14 0 7.5-2.69 7.5-5.92C15 2.69 11.64 0 7.5 0z" fill="#1d1d1f" opacity="0.9"/>
+                <circle cx="7.5" cy="6" r="1.5" fill="#1d1d1f"/>
+            </svg>
+            <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="3" width="20" height="8" rx="1" stroke="#1d1d1f" stroke-width="1.5" fill="none"/>
+                <rect x="22" y="5" width="1.5" height="4" rx="0.75" fill="#1d1d1f"/>
+                <rect x="2.5" y="5" width="17" height="4" rx="0.5" fill="#1d1d1f"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="px-6 pt-4 pb-4 flex items-center">
+        <button class="mr-4">
+            <i class="fas fa-arrow-left text-gray-900 text-xl"></i>
+        </button>
+        <div class="flex space-x-2">
+            <button class="room-tab active px-4 py-2 rounded-full text-sm font-semibold">
+                客厅
+            </button>
+            <button class="room-tab px-4 py-2 rounded-full glass-card text-sm font-semibold text-gray-600">
+                卧室
+            </button>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="pb-6">
+        <!-- 标题 -->
+        <div class="px-6 mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">家庭温度</h1>
+        </div>
+
+        <!-- 圆形温度控制 -->
+        <div class="px-6 mb-8">
+            <div class="temp-circle">
+                <div class="circle-bg">
+                    <div class="temp-dot current"></div>
+                    <div class="temp-dot goal"></div>
+                    <div class="circle-inner">
+                        <p class="text-6xl font-bold text-gray-900 mb-2">24</p>
+                        <p class="text-2xl text-gray-900/80 mb-4">°C</p>
+                        <p class="text-sm text-gray-900/70">目标温度</p>
+                    </div>
+                </div>
+                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-between px-4">
+                    <div class="text-left">
+                        <p class="text-sm text-gray-900/70">10°C -</p>
+                        <p class="text-xs text-gray-900/50 mt-8">15°C 现在</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-900/70">20°C</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-900/70">- 30°C</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 温度调节按钮 -->
+        <div class="px-6 mb-8 flex items-center justify-center space-x-8">
+            <button class="w-16 h-16 rounded-full glass-card flex items-center justify-center">
+                <i class="fas fa-minus text-gray-900 text-2xl"></i>
+            </button>
+            <button class="w-16 h-16 rounded-full glass-card flex items-center justify-center">
+                <i class="fas fa-plus text-gray-900 text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- 定时设置 -->
+        <div class="px-6">
+            <div class="glass-card rounded-3xl p-6">
+                <p class="text-sm font-semibold text-gray-900 mb-4">定时设置</p>
+                <div class="flex items-center justify-center space-x-3">
+                    <button class="px-6 py-3 rounded-xl glass-card text-gray-900 font-semibold text-sm">
+                        15:00
+                    </button>
+                    <span class="text-gray-900/70">至</span>
+                    <button class="px-6 py-3 rounded-xl glass-card text-gray-900 font-semibold text-sm">
+                        22:00
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

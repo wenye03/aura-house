@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #09090b; color: #fff; font-family: sans-serif; padding-top: 44px; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); border-radius: 24px; padding: 20px; }
+        .bar { width: 12px; border-radius: 6px; background: rgba(59, 130, 246, 0.3); position: relative; }
+        .bar-active { background: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
+    </style>
+</head>
+<body class="px-7">
+    <h1 class="text-2xl font-bold mb-6 italic tracking-tight">Energy Usage</h1>
+    
+    <div class="glass-card mb-6 text-center">
+        <p class="text-gray-400 text-sm mb-1">本月消耗电量</p>
+        <h2 class="text-4xl font-bold">128.4 <span class="text-lg font-normal text-gray-500 ml-1">kWh</span></h2>
+    </div>
+
+    <div class="glass-card flex items-end justify-between h-48 mb-8 px-4">
+        <div class="flex flex-col items-center gap-2">
+            <div class="bar h-24"></div><span class="text-[10px] text-gray-500">Mon</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <div class="bar h-32"></div><span class="text-[10px] text-gray-500">Tue</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <div class="bar h-40 bar-active"></div><span class="text-[10px] text-blue-400 font-bold">Wed</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <div class="bar h-28"></div><span class="text-[10px] text-gray-500">Thu</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+            <div class="bar h-36"></div><span class="text-[10px] text-gray-500">Fri</span>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <div class="flex justify-between items-center border-b border-white/5 pb-4">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-plug text-yellow-500"></i>
+                <span>厨房电器</span>
+            </div>
+            <span class="font-mono">42.5 kWh</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-white/5 pb-4">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-snowflake text-blue-400"></i>
+                <span>制冷系统</span>
+            </div>
+            <span class="font-mono">68.2 kWh</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能灯光 - 智能家居</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 50%, #f0f0f3 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .status-bar {
+            height: 44px;
+            background: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        .device-tab {
+            transition: all 0.3s;
+        }
+        .device-tab.active {
+            background: rgba(0, 0, 0, 0.08);
+            color: #1d1d1f;
+        }
+        .brightness-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+        .brightness-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #007aff;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .brightness-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #007aff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .toggle-switch {
+            width: 48px;
+            height: 28px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 14px;
+            position: relative;
+            transition: background 0.3s;
+        }
+        .toggle-switch.active {
+            background: #007aff;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+        .mode-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .mode-icon.active {
+            background: rgba(0, 0, 0, 0.08);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+    <!-- iOS状态栏 -->
+    <div class="status-bar flex items-center justify-between px-6 text-gray-900 text-sm font-semibold">
+        <div class="flex items-center">
+            <span class="font-semibold">9:30</span>
+        </div>
+        <div class="flex items-center space-x-1">
+            <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="6" width="2" height="4" rx="0.5" fill="white"/>
+                <rect x="3" y="4" width="2" height="6" rx="0.5" fill="white"/>
+                <rect x="6" y="2" width="2" height="8" rx="0.5" fill="white"/>
+                <rect x="9" y="1" width="2" height="9" rx="0.5" fill="white"/>
+                <rect x="12" y="0" width="2" height="10" rx="0.5" fill="white"/>
+            </svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 0C3.36 0 0 2.69 0 6c0 1.68.85 3.18 2.18 4.08L1 11l4.5-1.5C6.5 9.83 7 9.92 7.5 9.92c4.14 0 7.5-2.69 7.5-5.92C15 2.69 11.64 0 7.5 0z" fill="white" opacity="0.9"/>
+                <circle cx="7.5" cy="6" r="1.5" fill="white"/>
+            </svg>
+            <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="3" width="20" height="8" rx="1" stroke="white" stroke-width="1.5" fill="none"/>
+                <rect x="22" y="5" width="1.5" height="4" rx="0.75" fill="white"/>
+                <rect x="2.5" y="5" width="17" height="4" rx="0.5" fill="white"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="px-6 pt-4 pb-4 flex items-center justify-between">
+        <button>
+            <i class="fas fa-arrow-left text-gray-900 text-xl"></i>
+        </button>
+        <div>
+            <h1 class="text-xl font-bold text-gray-900 text-center">智能灯光</h1>
+            <p class="text-gray-600 text-xs text-center">客厅</p>
+        </div>
+        <button>
+            <i class="fas fa-ellipsis-v text-gray-900 text-xl"></i>
+        </button>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="pb-6">
+        <!-- 电源开关 -->
+        <div class="px-6 mb-6">
+            <div class="flex items-center justify-between">
+                <span class="text-2xl font-bold text-gray-900">开启</span>
+                <div class="toggle-switch active"></div>
+            </div>
+        </div>
+
+        <!-- 设备大图 -->
+        <div class="px-6 mb-8 flex justify-center">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop" 
+                     alt="吊灯" class="w-56 h-64 object-cover rounded-3xl shadow-2xl">
+                <div class="absolute inset-0 bg-gradient-to-t from-yellow-400/20 to-transparent rounded-3xl"></div>
+            </div>
+        </div>
+
+        <!-- 亮度控制 - 水平滑块 -->
+        <div class="px-6 mb-8">
+            <div class="flex items-center space-x-4 mb-4">
+                <button class="w-12 h-12 rounded-full glass-card flex items-center justify-center">
+                    <i class="fas fa-minus text-gray-900"></i>
+                </button>
+                <div class="flex-1">
+                    <input type="range" min="0" max="100" value="60" class="brightness-slider">
+                </div>
+                <button class="w-12 h-12 rounded-full glass-card flex items-center justify-center">
+                    <i class="fas fa-plus text-gray-900"></i>
+                </button>
+            </div>
+            <div class="text-center">
+                <p class="text-3xl font-bold text-gray-900 mb-1">60%</p>
+                <p class="text-gray-600 text-sm">亮度</p>
+            </div>
+        </div>
+
+        <!-- 灯光模式 -->
+        <div class="px-6 mb-6">
+            <div class="glass-card rounded-3xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">灯光模式</h3>
+                </div>
+                <div class="flex items-center justify-around">
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="mode-icon active">
+                            <i class="fas fa-sun text-yellow-500 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-900 font-semibold">灯光</span>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="mode-icon">
+                            <i class="fas fa-moon text-gray-700 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-sm">月光</span>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="mode-icon">
+                            <i class="fas fa-music text-gray-700 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-sm">音乐</span>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="mode-icon">
+                            <i class="fas fa-bell text-gray-700 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-sm">提醒</span>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="mode-icon">
+                            <i class="fas fa-lightbulb text-gray-700 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-sm">灯泡</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 定时和睡眠 -->
+        <div class="px-6 space-y-4">
+            <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-1">定时</h3>
+                    <p class="text-xs text-gray-600">1小时后开启或关闭</p>
+                </div>
+                <div class="toggle-switch"></div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                    <h3 class="font-semibold text-gray-900 mb-1">睡眠</h3>
+                    <p class="text-xs text-gray-600">自动调暗灯光</p>
+                </div>
+                <div class="toggle-switch"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

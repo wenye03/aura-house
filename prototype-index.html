@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能家居App - 高保真原型</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .prototype-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .phone-wrapper {
+            position: relative;
+            width: 393px;
+            height: 852px;
+            background: #000;
+            border-radius: 47px;
+            padding: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 
+                        0 0 0 2px rgba(255, 255, 255, 0.1) inset;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 39px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+        }
+        
+        .phone-screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        .phone-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        /* iPhone 15 Pro 动态岛 */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000;
+            border-radius: 19px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .phone-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 126px;
+            height: 37px;
+            background: #000;
+            border-radius: 0 0 19px 19px;
+            z-index: 1001;
+        }
+        
+        @media (max-width: 1400px) {
+            .prototype-container {
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .prototype-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            body {
+                padding: 20px 10px;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-home"></i> 智能家居App</h1>
+        <p>高保真原型设计 - iPhone 15 Pro</p>
+    </div>
+    
+    <div class="prototype-container">
+        <!-- 首页 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="home.html" title="首页"></iframe>
+            </div>
+            <div class="phone-label">首页 (Home)</div>
+        </div>
+        
+        <!-- 房间页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="rooms.html" title="房间"></iframe>
+            </div>
+            <div class="phone-label">房间 (Rooms)</div>
+        </div>
+        
+        <!-- 设备控制页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="device.html" title="设备控制"></iframe>
+            </div>
+            <div class="phone-label">设备控制 (Device)</div>
+        </div>
+        
+        <!-- 场景页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="scenes.html" title="场景"></iframe>
+            </div>
+            <div class="phone-label">场景 (Scenes)</div>
+        </div>
+        
+        <!-- 个人中心页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="profile.html" title="个人中心"></iframe>
+            </div>
+            <div class="phone-label">个人中心 (Profile)</div>
+        </div>
+
+        <!-- 房间详情页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="room-detail.html" title="房间详情"></iframe>
+            </div>
+            <div class="phone-label">房间详情 (Room Detail)</div>
+        </div>
+
+        <!-- 我的情景页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="my-scenes.html" title="我的情景"></iframe>
+            </div>
+            <div class="phone-label">我的情景 (My Scenes)</div>
+        </div>
+
+        <!-- 家庭管理页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="family.html" title="家庭管理"></iframe>
+            </div>
+            <div class="phone-label">家庭管理 (Family)</div>
+        </div>
+
+        <!-- 系统健康中心 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="health.html" title="系统健康中心"></iframe>
+            </div>
+            <div class="phone-label">系统健康中心 (Health)</div>
+        </div>
+
+        <!-- 能源消耗分析 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="energy.html" title="能源消耗分析"></iframe>
+            </div>
+            <div class="phone-label">能源消耗分析 (Energy)</div>
+        </div>
+
+        <!-- 商城页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="shop.html" title="商城"></iframe>
+            </div>
+            <div class="phone-label">商城 (Shop)</div>
+        </div>
+
+        <!-- 设备管理页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="devices.html" title="设备管理"></iframe>
+            </div>
+            <div class="phone-label">设备管理 (Devices)</div>
+        </div>
+
+        <!-- 智能灯光控制 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="device-light.html" title="智能灯光"></iframe>
+            </div>
+            <div class="phone-label">智能灯光 (Light)</div>
+        </div>
+
+        <!-- 空气净化器控制 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="device-air.html" title="空气净化器"></iframe>
+            </div>
+            <div class="phone-label">空气净化器 (Air Purifier)</div>
+        </div>
+
+        <!-- 温度控制 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="device-temp.html" title="温度控制"></iframe>
+            </div>
+            <div class="phone-label">温度控制 (Temperature)</div>
+        </div>
+
+        <!-- 房间页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="rooms.html" title="房间"></iframe>
+            </div>
+            <div class="phone-label">房间 (Rooms)</div>
+        </div>
+
+        <!-- 场景页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="scenes.html" title="场景"></iframe>
+            </div>
+            <div class="phone-label">场景 (Scenes)</div>
+        </div>
+
+        <!-- 商城页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="shop.html" title="商城"></iframe>
+            </div>
+            <div class="phone-label">商城 (Shop)</div>
+        </div>
+
+        <!-- 个人中心页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="profile.html" title="个人中心"></iframe>
+            </div>
+            <div class="phone-label">个人中心 (Profile)</div>
+        </div>
+
+        <!-- 户外天气页面 -->
+        <div class="phone-wrapper">
+            <div class="dynamic-island"></div>
+            <div class="phone-screen">
+                <iframe src="outdoor.html" title="户外"></iframe>
+            </div>
+            <div class="phone-label">户外 (Outdoor)</div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

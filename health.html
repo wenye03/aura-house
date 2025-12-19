@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统健康中心 - 智能家居</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+        .status-bar {
+            height: 44px;
+            background: transparent;
+        }
+        .health-score {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #22c55e 0%, #22c55e 95%, #e5e7eb 95%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .health-score-inner {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .device-item {
+            transition: transform 0.2s;
+        }
+        .device-item:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- iOS状态栏 -->
+    <div class="status-bar flex items-center justify-between px-6 text-gray-900 text-sm font-semibold">
+        <div class="flex items-center">
+            <span class="font-semibold">9:41</span>
+        </div>
+        <div class="flex items-center space-x-1">
+            <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="6" width="2" height="4" rx="0.5" fill="currentColor"/>
+                <rect x="3" y="4" width="2" height="6" rx="0.5" fill="currentColor"/>
+                <rect x="6" y="2" width="2" height="8" rx="0.5" fill="currentColor"/>
+                <rect x="9" y="1" width="2" height="9" rx="0.5" fill="currentColor"/>
+                <rect x="12" y="0" width="2" height="10" rx="0.5" fill="currentColor"/>
+            </svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 0C3.36 0 0 2.69 0 6c0 1.68.85 3.18 2.18 4.08L1 11l4.5-1.5C6.5 9.83 7 9.92 7.5 9.92c4.14 0 7.5-2.69 7.5-5.92C15 2.69 11.64 0 7.5 0z" fill="currentColor"/>
+            </svg>
+            <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="3" width="20" height="8" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <rect x="22" y="5" width="1.5" height="4" rx="0.75" fill="currentColor"/>
+                <rect x="2.5" y="5" width="17" height="4" rx="0.5" fill="currentColor"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="bg-white px-6 py-4 shadow-sm flex items-center">
+        <button class="mr-4">
+            <i class="fas fa-arrow-left text-gray-800 text-xl"></i>
+        </button>
+        <h1 class="text-xl font-bold text-gray-800">系统健康中心</h1>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="pb-6">
+        <!-- 总体健康评分 -->
+        <div class="px-6 pt-6 mb-6">
+            <div class="bg-white rounded-3xl p-6 shadow-md">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 mb-1">系统健康评分</h2>
+                        <p class="text-sm text-gray-500">优秀</p>
+                    </div>
+                    <div class="health-score">
+                        <div class="health-score-inner">
+                            <p class="text-3xl font-bold text-gray-900">95</p>
+                            <p class="text-xs text-gray-500">/100</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 网络状态 -->
+        <div class="px-6 mb-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">网络状态</h2>
+            <div class="bg-white rounded-2xl p-5 shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                        <span class="font-semibold text-gray-900">所有设备在线</span>
+                    </div>
+                    <span class="text-sm text-green-600 font-semibold">14/14</span>
+                </div>
+                <div class="space-y-3">
+                    <!-- 在线设备 -->
+                    <div class="device-item flex items-center justify-between p-3 bg-green-50 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-lightbulb text-green-600"></i>
+                            <span class="text-sm font-semibold text-gray-900">智能灯光</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span class="text-xs text-gray-500">在线</span>
+                        </div>
+                    </div>
+                    <div class="device-item flex items-center justify-between p-3 bg-green-50 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-snowflake text-green-600"></i>
+                            <span class="text-sm font-semibold text-gray-900">空调</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span class="text-xs text-gray-500">在线</span>
+                        </div>
+                    </div>
+                    <!-- 离线设备示例 -->
+                    <div class="device-item flex items-center justify-between p-3 bg-red-50 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-tv text-red-600"></i>
+                            <span class="text-sm font-semibold text-gray-900">智能电视</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                            <span class="text-xs text-red-600">离线</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 存储状态 -->
+        <div class="px-6 mb-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">存储状态</h2>
+            <div class="bg-white rounded-2xl p-5 shadow-md">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <p class="font-semibold text-gray-900">视频云存储</p>
+                        <p class="text-sm text-gray-500 mt-1">已使用 45GB / 100GB</p>
+                    </div>
+                    <button class="text-blue-600 font-semibold text-sm">升级</button>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="bg-blue-600 h-3 rounded-full" style="width: 45%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 固件更新 -->
+        <div class="px-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">固件更新</h2>
+            <div class="bg-white rounded-2xl p-5 shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="font-semibold text-gray-900">待更新设备</p>
+                        <p class="text-sm text-gray-500 mt-1">3个设备有可用更新</p>
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                        一键更新全部
+                    </button>
+                </div>
+                <div class="space-y-3">
+                    <div class="device-item flex items-center justify-between p-3 bg-blue-50 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-lightbulb text-blue-600"></i>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">智能灯光</p>
+                                <p class="text-xs text-gray-500">v2.1.3 → v2.2.0</p>
+                            </div>
+                        </div>
+                        <button class="text-blue-600 font-semibold text-sm">更新</button>
+                    </div>
+                    <div class="device-item flex items-center justify-between p-3 bg-blue-50 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-snowflake text-blue-600"></i>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">空调</p>
+                                <p class="text-xs text-gray-500">v1.5.2 → v1.6.0</p>
+                            </div>
+                        </div>
+                        <button class="text-blue-600 font-semibold text-sm">更新</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房间详情 - 智能家居</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+        .status-bar {
+            height: 44px;
+            background: transparent;
+        }
+        .halo-green {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+        .device-card {
+            transition: transform 0.2s;
+        }
+        .device-card:active {
+            transform: scale(0.98);
+        }
+        .ai-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- iOS状态栏 -->
+    <div class="status-bar flex items-center justify-between px-6 text-white text-sm font-semibold">
+        <div class="flex items-center">
+            <span class="font-semibold">9:41</span>
+        </div>
+        <div class="flex items-center space-x-1">
+            <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="6" width="2" height="4" rx="0.5" fill="white"/>
+                <rect x="3" y="4" width="2" height="6" rx="0.5" fill="white"/>
+                <rect x="6" y="2" width="2" height="8" rx="0.5" fill="white"/>
+                <rect x="9" y="1" width="2" height="9" rx="0.5" fill="white"/>
+                <rect x="12" y="0" width="2" height="10" rx="0.5" fill="white"/>
+            </svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 0C3.36 0 0 2.69 0 6c0 1.68.85 3.18 2.18 4.08L1 11l4.5-1.5C6.5 9.83 7 9.92 7.5 9.92c4.14 0 7.5-2.69 7.5-5.92C15 2.69 11.64 0 7.5 0z" fill="white"/>
+            </svg>
+            <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="3" width="20" height="8" rx="1" stroke="white" stroke-width="1.5" fill="none"/>
+                <rect x="22" y="5" width="1.5" height="4" rx="0.75" fill="white"/>
+                <rect x="2.5" y="5" width="17" height="4" rx="0.5" fill="white"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="bg-white px-6 py-4 shadow-sm flex items-center">
+        <button class="mr-4">
+            <i class="fas fa-arrow-left text-gray-800 text-xl"></i>
+        </button>
+        <div class="flex-1">
+            <h1 class="text-xl font-bold text-gray-800">客厅</h1>
+            <p class="text-xs text-gray-500">舒适放松</p>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center halo-green">
+            <i class="fas fa-check text-green-600 text-sm"></i>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="pb-6">
+        <!-- 环境数据概览 -->
+        <div class="px-6 pt-6 mb-6">
+            <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl p-6 text-white">
+                <h2 class="text-lg font-bold mb-4">环境数据</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span class="text-sm opacity-90">温度</span>
+                        </div>
+                        <p class="text-3xl font-bold">24°C</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <i class="fas fa-tint"></i>
+                            <span class="text-sm opacity-90">湿度</span>
+                        </div>
+                        <p class="text-3xl font-bold">55%</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <i class="fas fa-wind"></i>
+                            <span class="text-sm opacity-90">空气质量</span>
+                        </div>
+                        <p class="text-3xl font-bold">优秀</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2 mb-2">
+                            <i class="fas fa-sun"></i>
+                            <span class="text-sm opacity-90">光照强度</span>
+                        </div>
+                        <p class="text-3xl font-bold">适中</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI情景建议横幅 -->
+        <div class="px-6 mb-6">
+            <div class="ai-banner rounded-2xl p-4 text-white shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <i class="fas fa-robot"></i>
+                            <span class="text-xs opacity-90">AI建议</span>
+                        </div>
+                        <p class="font-semibold">是否开启"观影模式"？</p>
+                        <p class="text-xs opacity-90 mt-1">检测到灯光已调暗，电视已开启</p>
+                    </div>
+                    <button class="bg-white text-purple-600 px-4 py-2 rounded-xl font-semibold text-sm ml-4">
+                        执行
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设备控制网格 -->
+        <div class="px-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">设备控制</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 智能灯光卡片 -->
+                <div class="device-card bg-white rounded-2xl p-4 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-yellow-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">智能灯光</span>
+                        </div>
+                        <button class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                            <i class="fas fa-power-off text-white text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-500">亮度</span>
+                                <span class="text-xs font-semibold text-gray-900">80%</span>
+                            </div>
+                            <input type="range" min="0" max="100" value="80" class="w-full h-2 bg-gray-200 rounded-lg appearance-none">
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-500">色温</span>
+                                <span class="text-xs font-semibold text-gray-900">暖白</span>
+                            </div>
+                            <input type="range" min="0" max="100" value="60" class="w-full h-2 bg-gray-200 rounded-lg appearance-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 空调卡片 -->
+                <div class="device-card bg-white rounded-2xl p-4 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-snowflake text-green-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">空调</span>
+                        </div>
+                        <button class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
+                            <i class="fas fa-power-off text-white text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs text-gray-500">温度</span>
+                                <span class="text-xs font-semibold text-gray-900">26°C</span>
+                            </div>
+                            <input type="range" min="16" max="30" value="26" class="w-full h-2 bg-gray-200 rounded-lg appearance-none">
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 bg-gray-100 text-gray-700 py-1 rounded-lg text-xs font-semibold">制冷</button>
+                            <button class="flex-1 bg-blue-600 text-white py-1 rounded-lg text-xs font-semibold">送风</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 智能电视卡片 -->
+                <div class="device-card bg-white rounded-2xl p-4 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                                <i class="fas fa-tv text-purple-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">智能电视</span>
+                        </div>
+                        <button class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-power-off text-gray-600 text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="text-center py-2">
+                        <p class="text-xs text-gray-500">已关闭</p>
+                    </div>
+                </div>
+
+                <!-- 窗帘卡片 -->
+                <div class="device-card bg-white rounded-2xl p-4 shadow-md">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                                <i class="fas fa-window-maximize text-orange-600"></i>
+                            </div>
+                            <span class="font-semibold text-gray-900">智能窗帘</span>
+                        </div>
+                        <button class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-power-off text-gray-600 text-xs"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs text-gray-500">开合度</span>
+                            <span class="text-xs font-semibold text-gray-900">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

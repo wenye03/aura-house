@@ -1,0 +1,24 @@
+# 所有界面URL列表 - 复制到Figma插件中使用
+
+# 核心界面
+http://127.0.0.1:8000/home.html
+http://127.0.0.1:8000/devices.html
+http://127.0.0.1:8000/rooms.html
+http://127.0.0.1:8000/scenes.html
+http://127.0.0.1:8000/shop.html
+http://127.0.0.1:8000/profile.html
+
+# 设备控制界面
+http://127.0.0.1:8000/device-light.html
+http://127.0.0.1:8000/device-air.html
+http://127.0.0.1:8000/device-temp.html
+
+# 其他界面
+http://127.0.0.1:8000/outdoor.html
+
+# 使用说明：
+# 1. 启动服务器（双击 start-server.bat）
+# 2. 在Figma中安装 html.to.design 插件
+# 3. 逐个复制URL到插件中导入
+# 4. 或使用支持批量导入的插件
+
