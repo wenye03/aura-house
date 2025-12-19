@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备控制 - 智能家居</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+        }
+        .status-bar {
+            height: 44px;
+            background: transparent;
+        }
+        .temperature-dial {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .dial-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, 
+                #06b6d4 0%, 
+                #3b82f6 20%, 
+                #6366f1 40%, 
+                #8b5cf6 60%, 
+                #a855f7 80%, 
+                #ec4899 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+        .dial-inner {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .mode-button {
+            transition: all 0.3s;
+        }
+        .mode-button.active {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- iOS状态栏 -->
+    <div class="status-bar flex items-center justify-between px-6 text-gray-900 text-sm font-semibold">
+        <div class="flex items-center">
+            <span class="font-semibold">9:41</span>
+        </div>
+        <div class="flex items-center space-x-1">
+            <svg width="17" height="10" viewBox="0 0 17 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="6" width="2" height="4" rx="0.5" fill="currentColor"/>
+                <rect x="3" y="4" width="2" height="6" rx="0.5" fill="currentColor"/>
+                <rect x="6" y="2" width="2" height="8" rx="0.5" fill="currentColor"/>
+                <rect x="9" y="1" width="2" height="9" rx="0.5" fill="currentColor"/>
+                <rect x="12" y="0" width="2" height="10" rx="0.5" fill="currentColor"/>
+            </svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 0C3.36 0 0 2.69 0 6c0 1.68.85 3.18 2.18 4.08L1 11l4.5-1.5C6.5 9.83 7 9.92 7.5 9.92c4.14 0 7.5-2.69 7.5-5.92C15 2.69 11.64 0 7.5 0z" fill="currentColor"/>
+            </svg>
+            <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="3" width="20" height="8" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <rect x="22" y="5" width="1.5" height="4" rx="0.75" fill="currentColor"/>
+                <rect x="2.5" y="5" width="17" height="4" rx="0.5" fill="currentColor"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="bg-white px-6 py-4 shadow-sm flex items-center">
+        <button class="mr-4">
+            <i class="fas fa-arrow-left text-gray-800 text-xl"></i>
+        </button>
+        <div class="flex-1">
+            <h1 class="text-xl font-bold text-gray-800">空调</h1>
+            <p class="text-xs text-gray-500">卧室</p>
+        </div>
+        <button>
+            <i class="fas fa-cog text-gray-600 text-xl"></i>
+        </button>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="pb-6">
+        <!-- 能耗信息 -->
+        <div class="px-6 pt-6 mb-6">
+            <div class="bg-white rounded-2xl p-4 shadow-md">
+                <p class="text-sm text-gray-500 mb-1">能耗</p>
+                <p class="text-4xl font-bold text-gray-900">37 kW</p>
+            </div>
+        </div>
+
+        <!-- 温度控制拨盘 -->
+        <div class="px-6 mb-8">
+            <div class="temperature-dial">
+                <div class="dial-bg">
+                    <div class="dial-inner">
+                        <p class="text-6xl font-bold text-gray-900 mb-1">23</p>
+                        <p class="text-lg text-gray-500">°C</p>
+                        <p class="text-sm text-gray-400 mt-2">中等</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center space-x-8 mt-6">
+                <button class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center shadow-md">
+                    <i class="fas fa-minus text-gray-600"></i>
+                </button>
+                <button class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center shadow-md">
+                    <i class="fas fa-plus text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 模式选择 -->
+        <div class="px-6 mb-6">
+            <div class="grid grid-cols-4 gap-3">
+                <button class="mode-button bg-white rounded-2xl p-4 text-center shadow-md">
+                    <i class="fas fa-sun text-2xl text-orange-500 mb-2"></i>
+                    <p class="text-xs font-semibold text-gray-700">制热</p>
+                </button>
+                <button class="mode-button bg-white rounded-2xl p-4 text-center shadow-md">
+                    <i class="fas fa-snowflake text-2xl text-blue-500 mb-2"></i>
+                    <p class="text-xs font-semibold text-gray-700">制冷</p>
+                </button>
+                <button class="mode-button active bg-blue-600 rounded-2xl p-4 text-center shadow-md">
+                    <i class="fas fa-fan text-2xl text-white mb-2"></i>
+                    <p class="text-xs font-semibold text-white">送风</p>
+                </button>
+                <button class="mode-button bg-white rounded-2xl p-4 text-center shadow-md">
+                    <i class="fas fa-tint text-2xl text-cyan-500 mb-2"></i>
+                    <p class="text-xs font-semibold text-gray-700">除湿</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- 定时设置 -->
+        <div class="px-6 mb-6">
+            <div class="bg-white rounded-2xl p-6 shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">定时开关</h3>
+                        <p class="text-sm text-gray-500">设置每日运行时间</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-7 after:w-7 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-gray-600">开始时间</span>
+                        <span class="font-semibold text-gray-900">08:00 PM</span>
+                    </div>
+                    <div class="h-px bg-gray-200"></div>
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-gray-600">结束时间</span>
+                        <span class="font-semibold text-gray-900">11:50 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 自动化与日程 -->
+        <div class="px-6 mb-6">
+            <div class="bg-white rounded-2xl p-6 shadow-md">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">智能自动化</h3>
+                        <p class="text-sm text-gray-500">创建"如果-那么"规则</p>
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-xl font-semibold text-sm">
+                        添加
+                    </button>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-blue-50 rounded-xl p-4">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-bolt text-blue-600 mt-1"></i>
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-900 mb-1">温度自动控制</p>
+                                <p class="text-sm text-gray-600">如果温度 > 28°C，则开启空调</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设备信息与设置 -->
+        <div class="px-6">
+            <div class="bg-white rounded-2xl p-6 shadow-md">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">设备信息</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-gray-600">设备名称</span>
+                        <span class="font-semibold text-gray-900">卧室空调</span>
+                    </div>
+                    <div class="h-px bg-gray-200"></div>
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-gray-600">位置</span>
+                        <span class="font-semibold text-gray-900">卧室</span>
+                    </div>
+                    <div class="h-px bg-gray-200"></div>
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-gray-600">固件版本</span>
+                        <span class="font-semibold text-gray-900">v1.6.0</span>
+                    </div>
+                    <div class="h-px bg-gray-200"></div>
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-gray-600">本月能耗</span>
+                        <span class="font-semibold text-gray-900">252 kWh</span>
+                    </div>
+                </div>
+                <div class="mt-6 space-y-2">
+                    <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold text-sm">
+                        重命名设备
+                    </button>
+                    <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold text-sm">
+                        更新固件
+                    </button>
+                    <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold text-sm">
+                        故障排查
+                    </button>
+                    <button class="w-full bg-red-50 text-red-600 py-3 rounded-xl font-semibold text-sm">
+                        移除设备
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
